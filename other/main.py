@@ -1,7 +1,7 @@
 import tkinter as tk
 import serial
 import time
-
+#most basic version of my project not used anymore
 class GUI:
     def __init__(self, root):
         self.root = root

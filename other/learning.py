@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVB
 import sys
 import time 
 
-
+#this is a file designed for testing different GUI elements
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         main_layout.addStretch()
         second_layout.addStretch()
         second_layout.addWidget(self.input)
-        second_layout.addWidget(self.label)
+        #
         second_layout.addStretch()
         main_layout.addLayout(second_layout)
         main_layout.addStretch()
@@ -74,7 +74,8 @@ class MainWindow(QMainWindow):
 
  
 
-    def click(self):
+"""
+     def click(self):
             try:
                 if self.label.text() != 0:
                     self.setWindowTitle(self.label.text())
@@ -83,7 +84,7 @@ class MainWindow(QMainWindow):
                     self.i+=1
             except:
                  print("no")
-                
+                """
         
         
 """

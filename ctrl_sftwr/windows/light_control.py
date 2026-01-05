@@ -9,10 +9,12 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.styles import apply_dark_theme
-from playsound import playsound
+
 
 from PyQt5.QtCore import QTimer
 from utils.comms import send_serial
+
+
 class LightControl(QMainWindow):
    
 

@@ -1,4 +1,4 @@
-
+#used to map out ports
 import serial.tools.list_ports
 
 def list_ports():

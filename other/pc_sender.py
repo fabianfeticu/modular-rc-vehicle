@@ -1,7 +1,8 @@
 import serial
 import time
-
+#testing components
 # Configuration
+
 SERIAL_PORT = 'COM6'  # REPLACE WITH YOUR PICO'S COM PORT
 BAUD_RATE = 115200
 
