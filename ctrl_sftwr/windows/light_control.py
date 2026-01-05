@@ -13,7 +13,7 @@ from utils.styles import apply_dark_theme
 
 from PyQt5.QtCore import QTimer
 from utils.comms import send_serial
-
+import os
 
 class LightControl(QMainWindow):
    
@@ -25,18 +25,22 @@ class LightControl(QMainWindow):
 
         self.leds = []
 
+        
         self.presets = ["upleft","up","upright","left","full","right","downleft","down","downright","X","#","9"]
-        self.img_ls= {
-            "0": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\upleft.png",
-            "1": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\up.png",
-            "2": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\upright.png",
-            "3": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\left.png",
-            "4": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\centre.png",
-            "5": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\right.png",
-            "6": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\downleft.png",
-            "7": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\down.png",
-            "8": r"C:\Users\fabya\Desktop\Work\Engineering\projects\SV\SOFTWARE\ctrl_sftwr\Assets\downright.png"
+        
+        current_dir=os.path.dirname(os.path.abspath(__file__))
+        assets_path = os.path.join(current_dir, "..", "Assets")
 
+        self.img_ls = {
+            "0": os.path.join(assets_path, "upleft.png"),
+            "1": os.path.join(assets_path, "up.png"),
+            "2": os.path.join(assets_path, "upright.png"),
+            "3": os.path.join(assets_path, "left.png"),
+            "4": os.path.join(assets_path, "center.png"),
+            "5": os.path.join(assets_path, "right.png"),
+            "6": os.path.join(assets_path, "downleft.png"),
+            "7": os.path.join(assets_path, "down.png"),
+            "8": os.path.join(assets_path, "downright.png")
         }
         self.icons = {
             str(i): QIcon(path) for i, path in self.img_ls.items()
