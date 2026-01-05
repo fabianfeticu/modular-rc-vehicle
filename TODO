@@ -1,0 +1,9 @@
+
+
+(simple)--fix hardcoded paths!! 
+(mid)--fix the matrixcontrol software(.ino) to take in costum patterns will require bit operations in uint8_t
+(mid)--fix animation display in lightcontrol
+(mid)--finish light control GUI
+(demanding)--Build the communication setup (hardware+GUI)
+(demanding)--wire every part (so far) together
+
