@@ -1,2 +1,5 @@
 # modular-rc-vehicle
 This project is a custom-built RC vehicle designed from scratch, combining embedded systems, wireless communication, and desktop software. A PC-based GUI communicates through a Raspberry Pi Pico and long-range NRF24L01 modules to an Arduino Mega onboard the car, which controls motors, steering, sensors, and a programmable 5×5 LED matrix built using shift registers. The chassis and mechanisms are currently built using simple materials due to lack of access to a 3D printer, with plans to redesign mounts, enclosures, and structural parts using 3D-printed components. The project focuses on modular design, hardware-software integration, and iterative engineering under real constraints.
+
+
+The project is modular and more features will be added on the go (future features I'd like to add include: Temperature and other useful sensors, ultrasonic sensors, a display for displaying messages)
