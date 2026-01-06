@@ -26,7 +26,7 @@ class LightControl(QMainWindow):
         self.leds = []
 
         
-        self.presets = ["upleft","up","upright","left","full","right","downleft","down","downright","X","#","9"]
+        self.presets = ["upleft","up","upright","left","full","right","downleft","down","downright","X","#","9","none"]
         
         current_dir=os.path.dirname(os.path.abspath(__file__))
         assets_path = os.path.join(current_dir, "..", "Assets")
@@ -42,9 +42,11 @@ class LightControl(QMainWindow):
             "7": os.path.join(assets_path, "down.png"),
             "8": os.path.join(assets_path, "downright.png")
         }
+
         self.icons = {
             str(i): QIcon(path) for i, path in self.img_ls.items()
         }
+
         self.patterns = {
             "up": [3, 7, 8, 9, 11, 13, 15, 18, 23],
             "down": [23, 17, 18, 19, 11, 13, 15, 8, 3],
@@ -59,7 +61,8 @@ class LightControl(QMainWindow):
             "X": [1, 7, 13, 19, 25, 5, 9, 17, 21],
             "#": [2, 4, 6, 7, 8, 9, 10, 12, 14, 16, 17, 18, 19, 20, 22, 24],
             "9": [1, 3, 5, 11, 13, 15, 21, 23, 25],
-            "full": list(range(1, 26))
+            "full": list(range(1, 26)),
+            "none": []
         }
         self.animations = ["snake","loading","wave","flower"]
         #
@@ -69,94 +72,26 @@ class LightControl(QMainWindow):
         #stores led reds
         self.red_leds =[1,3,5,11,13,15,21,23,25]
 
-        self.strobe_time = 0
+        self.current_strobe_pattern =""
 
         self.Current_mm_Value = 0
+        
+        self.timer_on = QTimer()
+        self.timer_on.timeout.connect(self.strobe_beat)
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(lambda:set_visual_null())
 
         self.strobe_state = False 
         
-
-        def set_visual(item):
-            self.active_visual=[]
-            item = self.presets[item]
-            pos_ls = self.patterns[item] 
-            self.active_visual.append(pos_ls)
-            for i in pos_ls:
-                if i in self.red_leds:
-                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
-                else:
-                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
-            
-            
-            for i in range(1, 26): 
-                if i not in pos_ls:
-                    
-                    if i in self.red_leds:
-                        self.all_visuals[i-1].setStyleSheet("background-color: #8E5A5A; border-radius: 12px;")
-                    else:
-                        self.all_visuals[i-1].setStyleSheet("background-color: #8E8E5A; border-radius: 12px;")
-
-        def ledprint(pos):
-            name = self.leds[pos]
-            print(f"{name.text()} is checked: {name.isChecked()}")
-
-        def send_preset(item):
-            f = self.presets[item]
-            if item <= len(self.presets):
-                print("sending item: "+f)
-                send_serial(f)
-            else:
-                print(f'Someting went wrong, button {item} has no associated preset')
-
-
-        def send_strobe(time):
-            preset = self.selected_label.currentText()
-            print(f"Sending: {preset} , {time}")
-            send_serial(f"{preset} {time}")
-
-        
-
-        def send_animation(item):
-            f = self.animations[item]
-            if item <= len(self.presets):
-                print("sending animation: "+f)
-                send_serial(f)
-            else:
-                print(f'Someting went wrong, button {item} has no associated preset')
-
-        def set_visual_null():
-            send_serial("empty")
-            print("setting visual")
-            for i in range(1,26):
-                if i in self.red_leds:
-                    self.all_visuals[i-1].setStyleSheet("background-color: #8E5A5A; border-radius: 12px;")
-                else:
-                    self.all_visuals[i-1].setStyleSheet("background-color: #8E8E5A; border-radius: 12px;")
+        def stop_time():
+             self.timer_on.stop()
 
 
         
 
-        def display_strobe(visual):
+      
 
-            print(f"Displaying strobe: {self.Current_mm_Value} ms pattern: {visual}")
-
-            self.timer.stop() 
-            if( self.strobe_state == True):
-
-                set_visual(visual)
-                self.strobe_state = False
-            else:
-                set_visual_null()
-                self.strobe_state = True
-                
-            self.timer.start(self.Current_mm_Value)
-            
-
-
-
+        def update_strobestate(argument):
+            self.strobe_state=argument
 
 
         self.maincontainer = QWidget()
@@ -216,11 +151,11 @@ class LightControl(QMainWindow):
         self.preset_grid.setVerticalSpacing(1)
         self.preset_grid.setContentsMargins(10, 10, 10, 10)
 
-        for i in range(len(self.presets)):
+        for i in range(len(self.presets)-1):
             preset_btn = QPushButton()
-            preset_btn.clicked.connect(lambda checked, val=i:send_preset(val) )
-            preset_btn.clicked.connect(lambda checked, val=i:set_visual(val) )
-            preset_btn.pressed.connect(lambda: self.timer.stop())
+            preset_btn.clicked.connect(lambda checked, val=i:(self.send_preset(val),self.set_visual(val)) and None)
+            preset_btn.clicked.connect(lambda : update_strobestate(False))
+            preset_btn.clicked.connect(lambda: stop_time())
         
             if i <=8:
                 preset_btn.setFixedSize(80,80)
@@ -249,8 +184,8 @@ class LightControl(QMainWindow):
         #animation buttons
         for i in range(4):
             anm_btn = QPushButton(f'{self.animations[i]}')
-            anm_btn.pressed.connect(lambda  val=i: send_animation(val))
-            anm_btn.pressed.connect(lambda: self.timer.stop())
+            anm_btn.pressed.connect(lambda  val=i: self.send_animation(val))
+            anm_btn.pressed.connect(lambda : update_strobestate(False))
             self.animations_grid.addWidget(anm_btn,0,i+1)
             anm_btn.setFixedSize(60,60)
 
@@ -292,7 +227,7 @@ class LightControl(QMainWindow):
         #led buttons
         for i in range(25):
             led_btn=QPushButton(f'Led{i+1}')
-            led_btn.clicked.connect(lambda checked, val=i:ledprint(val) )
+            led_btn.clicked.connect(lambda checked, val=i:self.ledprint(val) )
             led_btn.setFixedSize(60,60)
             self.leds.append(led_btn)
             self.led_matrix.addWidget(led_btn,i//5,i%5)
@@ -311,7 +246,7 @@ class LightControl(QMainWindow):
 
         self.stop_btn = QPushButton("OFF")#stop btn for stopping display
         self.stop_btn.setFixedSize(150,30)
-        self.stop_btn.clicked.connect(lambda:set_visual_null())
+        self.stop_btn.clicked.connect(lambda:self.set_visual_null())
         self.stop_btn.setStyleSheet("background-color: #4f4a4a; color:dark grey")
 
         self.selected_label = QComboBox()#label for selected preset to strobe
@@ -325,10 +260,13 @@ class LightControl(QMainWindow):
         self.send_costum_btn = QPushButton("Send Custom")#send costum pattern
         self.send_costum_btn.setFixedSize(150,30)
 
-        self.send_strobe = QPushButton("Send Strobe")#send strobe
-        self.send_strobe.setFixedSize(150,30)
-        self.send_strobe.clicked.connect(lambda:send_strobe(self.mm_label.text()))
-        self.send_strobe.clicked.connect(lambda:display_strobe(self.presets.index(self.selected_label.currentText())))
+        self.send_strobe_btn = QPushButton("Send Strobe")#send strobe
+        self.send_strobe_btn.setFixedSize(150,30)
+        self.send_strobe_btn.clicked.connect(lambda:self.send_strobe(self.mm_label.text()))
+        self.send_strobe_btn.clicked.connect(lambda:self.display_strobe(self.presets.index(self.selected_label.currentText())))
+        self.send_strobe_btn.clicked.connect(lambda: stop_time())
+        self.send_strobe_btn.clicked.connect(lambda:self.timer_on.start(self.Current_mm_Value))
+        self.send_strobe_btn.clicked.connect(lambda : update_strobestate(True))
 
         self.mm_slider = QSlider(Qt.Orientation.Horizontal)#slider for mm
         self.mm_slider.setFixedSize(150,30)
@@ -340,7 +278,7 @@ class LightControl(QMainWindow):
         self.dmenugrid.addWidget(self.selected_label,0,1)
         self.dmenugrid.addWidget(self.mm_label,0,2)
         self.dmenugrid.addWidget(self.send_costum_btn,1,0)
-        self.dmenugrid.addWidget(self.send_strobe,1,1)
+        self.dmenugrid.addWidget(self.send_strobe_btn,1,1)
         self.dmenugrid.addWidget(self.mm_slider,1,2)
 
         self.gframedwn.setLayout(self.dmenugrid)
@@ -350,7 +288,82 @@ class LightControl(QMainWindow):
             self.Current_mm_Value = value*10
             self.mm_label.setText(f"{self.Current_mm_Value} ms")
 
+    def strobe_beat(self):
+        idx = self.presets.index(self.selected_label.currentText())
+        self.display_strobe(idx)
 
+    def display_strobe(self,visual):
+        if(self.strobe_state==False):
+            return
+        if self.current_strobe_pattern == 12: 
+            self.current_strobe_pattern = visual
+        else:
+            self.current_strobe_pattern = 12 
+            
+        self.set_visual(self.current_strobe_pattern)
+
+    
+    def set_visual(self,item):
+            self.active_visual=[]
+            item = self.presets[item]
+            pos_ls = self.patterns[item] 
+            self.active_visual.append(pos_ls)
+            for i in pos_ls:
+                if i in self.red_leds:
+                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
+                else:
+                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
+            
+            
+            for i in range(1, 26): 
+                if i not in pos_ls:
+                    
+                    if i in self.red_leds:
+                        self.all_visuals[i-1].setStyleSheet("background-color: #8E5A5A; border-radius: 12px;")
+                    else:
+                        self.all_visuals[i-1].setStyleSheet("background-color: #8E8E5A; border-radius: 12px;")
+
+    def ledprint(self,pos):
+            name = self.leds[pos]
+            print(f"{name.text()} is checked: {name.isChecked()}")
+
+    def send_preset(self,item):
+            try:
+                f = self.presets[item]
+                if item <= len(self.presets):
+                    print("sending item: "+f)
+                    send_serial(f)
+                else:
+                    print(f'Someting went wrong, button {item} has no associated preset')
+            except Exception as e:
+                print(f'Error:{e}')
+
+    def send_strobe(self,time):
+            preset = self.selected_label.currentText()
+            print(f"Sending: {preset} , {time}")
+            send_serial(f"{preset} {time}")
+
+        
+
+    def send_animation(self,item):
+            try:
+                f = self.animations[item]
+                if item <= len(self.presets):
+                    print("sending animation: "+f)
+                    send_serial(f)
+                else:
+                    print(f'Someting went wrong, button {item} has no associated preset')
+            except Exception as e:
+                print(f'Error:{e}')
+
+    def set_visual_null(self):
+            send_serial("empty")
+            print("setting visual")
+            for i in range(1,26):
+                if i in self.red_leds:
+                    self.all_visuals[i-1].setStyleSheet("background-color: #8E5A5A; border-radius: 12px;")
+                else:
+                    self.all_visuals[i-1].setStyleSheet("background-color: #8E8E5A; border-radius: 12px;")
 
 
         
