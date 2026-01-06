@@ -1,6 +1,7 @@
 
-
-(simple)--fix hardcoded paths!! 
+(mid)--animation display 
+(mid)--LightControl bug fixes
+(demanding)-Fuison360 designs + upload
 (mid)--fix the matrixcontrol software(.ino) to take in costum patterns will require bit operations in uint8_t
 (mid)--fix animation display in lightcontrol
 (mid)--finish light control GUI
