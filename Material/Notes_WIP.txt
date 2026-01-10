@@ -1,0 +1,12 @@
+WORK IN PROGRESS
+
+Integrated Secondary Lighting System & Modular Expansion Port
+
+The space between the front motor arms is optimized for secondary LED headlights. These are designed to provide a concentrated beam illuminating a specific focal area approximately 50mm in front of the vehicle (useful for other modular upgrades like a camera and test arm or digging tool). This lighting configuration ensures high visibility for the primary path while working in tandem with the main headlight to provide a wide-angle field of view.
+
+Motor Mount
+Opted for an open motor mount for better cooling
+
+
+
+
