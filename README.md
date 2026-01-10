@@ -4,6 +4,40 @@ This project is a custom-built RC vehicle designed from scratch, combining embed
 
 The project is modular and more features will be added on the go (future features I'd like to add include: Temperature and other useful sensors, ultrasonic sensors, a display for displaying messages)
 
+
+
+# Design
+![Chassis Overview](Design1.jpg)
+
+## 🛠️ Engineering Specifications
+- **Steering System:** Front-axle pivot linkage
+- **Mounting System:** Integrated side-rail "Quickmount" system
+
+## 🚀 Mechanical Design Highlights
+
+### 1. Front-Axle Steering Linkage
+The steering system utilizes a custom pivot-joint.
+- **Internal Verification:** As seen in the cross-section analysis (`Arm_joint2.jpg`)
+- **Precision Clearances:**  0.2mm tolerances to ensure smooth 
+
+![Steering Cross-Section](Arm_joint2.jpg)
+
+### 2. The Quickmount Rail System
+The standout feature of this chassis is the modular mounting rail located along the side walls. 
+- **Standardized Spacing:** Features a 10mm center-to-center hole pattern.
+- **Versatility:** Designed to accept modular clips for cameras, sensors, or digging tools without requiring a redesign of the main frame.
+- **Structural Integrity:** The rail is integrated directly into the 4mm thick chassis wall for maximum rigidity.
+
+![Quickmount Detail](QuickmounSystem2.jpg)
+
+### 3. Internal Routing & Component Layout
+The internal cavity was strategically planned to manage electronics and power distribution.
+- **Zoned Architecture:** Separate zones for the steering servo (front), battery/controller (middle), and high-torque motors (rear).
+- **Cable Management:** Integrated routing paths to prevent wires from interfering with moving steering parts.
+
+![Internal Routing](Routing%20system%202.jpg)
+
+
 # Modular RC Car with Wireless Control and LED Matrix
 
 This project is a custom-built RC vehicle designed from scratch using modular electronics and software.
