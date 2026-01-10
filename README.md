@@ -7,7 +7,7 @@ The project is modular and more features will be added on the go (future feature
 
 
 # Design
-![Chassis Overview](Materials/Design1.jpg)
+![Chassis Overview](Material/Design1.jpg)
 
 ## 🛠️ Engineering Specifications
 - **Steering System:** Front-axle pivot linkage
@@ -20,7 +20,7 @@ The steering system utilizes a custom pivot-joint.
 - **Internal Verification:** As seen in the cross-section analysis (`Arm_joint2.jpg`)
 - **Precision Clearances:**  0.2mm tolerances to ensure smooth 
 
-![Steering Cross-Section](Materials/Arm_joint2.jpg)
+![Steering Cross-Section](Material/Arm_joint2.jpg)
 
 ### 2. The Quickmount Rail System
 The standout feature of this chassis is the modular mounting rail located along the side walls. 
@@ -28,14 +28,14 @@ The standout feature of this chassis is the modular mounting rail located along 
 - **Versatility:** Designed to accept modular clips for cameras, sensors, or digging tools without requiring a redesign of the main frame.
 - **Structural Integrity:** The rail is integrated directly into the 4mm thick chassis wall for maximum rigidity.
 
-![Quickmount Detail](Materials/QuickmounSystem2.jpg)
+![Quickmount Detail](Material/QuickmounSystem2.jpg)
 
 ### 3. Internal Routing & Component Layout
 The internal cavity was strategically planned to manage electronics and power distribution.
 - **Zoned Architecture:** Separate zones for the steering servo (front), battery/controller (middle), and high-torque motors (rear).
 - **Cable Management:** Integrated routing paths to prevent wires from interfering with moving steering parts.
 
-![Internal Routing](Materials/Routing%20system%202.jpg)
+![Internal Routing](Material/Routing%20system%202.jpg)
 
 
 # Modular RC Car with Wireless Control and LED Matrix
