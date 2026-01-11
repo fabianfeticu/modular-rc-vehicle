@@ -4,10 +4,14 @@ This project is a custom-built RC vehicle designed from scratch, combining embed
 
 The project is modular and more features will be added on the go (future features I'd like to add include: Temperature and other useful sensors, ultrasonic sensors, a display for displaying messages)
 
+# 📂 Project Structure
+- **Project Category:** Custom (Original Mechanical Design)
+- **Universal CAD (STEP):** [Download STEP File](Design/Frame.step)
 
 
 # Design
 ![Chassis Overview](Material/Design1.jpg)
+
 
 ## 🛠️ Engineering Specifications
 - **Steering System:** Front-axle pivot linkage
