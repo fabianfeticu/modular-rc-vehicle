@@ -31,6 +31,9 @@ class LightControl(QMainWindow):
         current_dir=os.path.dirname(os.path.abspath(__file__))
         assets_path = os.path.join(current_dir, "..", "Assets")
 
+
+        
+
         self.img_ls = {
             "0": os.path.join(assets_path, "upleft.png"),
             "1": os.path.join(assets_path, "up.png"),
@@ -46,6 +49,34 @@ class LightControl(QMainWindow):
         self.icons = {
             str(i): QIcon(path) for i, path in self.img_ls.items()
         }
+        
+        self.led_matrix_ls = [
+            [0,0,0,0,0],
+            [0,0,0,0,0],
+            [0,0,0,0,0],
+            [0,0,0,0,0],
+            [0,0,0,0,0],
+        ]
+
+        def send_costum_func():
+            flat_list = [str(item) for row in self.led_matrix_ls for item in row]
+            print(flat_list)
+            self.send_serial(flat_list)
+
+        def btn_to_matrix(btn,is_checked):
+            print(btn)
+            row = btn // 5
+            col = btn - row*5
+            if is_checked:
+                self.led_matrix_ls[row][col] = 1
+            else:
+                 self.led_matrix_ls[row][col] = 0
+            print(self.led_matrix_ls)
+                 
+        
+      
+
+                  
 
         self.patterns = {
             "up": [3, 7, 8, 9, 11, 13, 15, 18, 23],
@@ -227,7 +258,7 @@ class LightControl(QMainWindow):
         #led buttons
         for i in range(25):
             led_btn=QPushButton(f'Led{i+1}')
-            led_btn.clicked.connect(lambda checked, val=i:self.ledprint(val) )
+            led_btn.clicked.connect(lambda checked, val=i:btn_to_matrix(val,checked))
             led_btn.setFixedSize(60,60)
             self.leds.append(led_btn)
             self.led_matrix.addWidget(led_btn,i//5,i%5)
@@ -258,6 +289,7 @@ class LightControl(QMainWindow):
         self.mm_label.setFixedSize(150,30)
 
         self.send_costum_btn = QPushButton("Send Custom")#send costum pattern
+        self.send_costum_btn.clicked.connect(send_costum_func)
         self.send_costum_btn.setFixedSize(150,30)
 
         self.send_strobe_btn = QPushButton("Send Strobe")#send strobe
@@ -365,7 +397,7 @@ class LightControl(QMainWindow):
                 else:
                     self.all_visuals[i-1].setStyleSheet("background-color: #8E8E5A; border-radius: 12px;")
 
-
+   
         
      
     

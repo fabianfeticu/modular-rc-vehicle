@@ -53,17 +53,10 @@ The system consists of:
 - NRF24L01+PA+LNA modules for wireless transmission
 - An Arduino Mega onboard the vehicle handling motors, steering, sensors, and LED output
 
-## Current Progress (~15%)
-- ✔ Physical chassis using a sandwich-style structure(using two plastic "plates"),(no 3D printer)
-- ✔ Steering system using a servo
-- ✔ Dual motor setup with temporary mechanical mounting
-- ✔ 5x5 LED matrix using three 8-bit shift registers
-- ✔ LED matrix control library with symbols and patterns
-- ✔ Initial GUI for motor control and LED output
 
 ## In Progress
 - Wireless communication protocol
-- Motor driver module (waiting for MOSFETs and relays)
+- Motor driver module 
 - GUI pattern animation and custom LED pattern upload
 - Improved mechanical design (planned 3D-printed parts)
 
