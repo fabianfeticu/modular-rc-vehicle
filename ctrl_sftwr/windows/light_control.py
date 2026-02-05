@@ -26,7 +26,7 @@ class LightControl(QMainWindow):
         self.leds = []
 
         
-        self.presets = ["upleft","up","upright","left","full","right","downleft","down","downright","X","#","9","none"]
+        self.presets = ["upleft","up","upright","left","full","right","downleft","down","downright","X","#","9","none","rightD","leftD","horz.D","vert.D"]
         
         current_dir=os.path.dirname(os.path.abspath(__file__))
         assets_path = os.path.join(current_dir, "..", "Assets")
@@ -93,7 +93,14 @@ class LightControl(QMainWindow):
             "#": [2, 4, 6, 7, 8, 9, 10, 12, 14, 16, 17, 18, 19, 20, 22, 24],
             "9": [1, 3, 5, 11, 13, 15, 21, 23, 25],
             "full": list(range(1, 26)),
-            "none": []
+            "none": [],
+
+            "rightD":[1, 3, 5, 7, 9, 11 ,13, 15, 17, 19, 21, 23, 25],
+            "leftD":[2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24],
+            "horz.D":[1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 21, 22, 23, 24, 25],
+            "vert.D":[1, 3, 5, 6, 8, 10, 11, 13, 15, 16, 18, 20, 21, 23, 25]
+
+
         }
         self.animations = ["snake","loading","wave","flower"]
         #
@@ -182,7 +189,7 @@ class LightControl(QMainWindow):
         self.preset_grid.setVerticalSpacing(1)
         self.preset_grid.setContentsMargins(10, 10, 10, 10)
 
-        for i in range(len(self.presets)-1):
+        for i in range(len(self.presets)-5):
             preset_btn = QPushButton()
             preset_btn.clicked.connect(lambda checked, val=i:(self.send_preset(val),self.set_visual(val)) and None)
             preset_btn.clicked.connect(lambda : update_strobestate(False))
@@ -214,9 +221,11 @@ class LightControl(QMainWindow):
         
         #animation buttons
         for i in range(4):
-            anm_btn = QPushButton(f'{self.animations[i]}')
-            anm_btn.pressed.connect(lambda  val=i: self.send_animation(val))
-            anm_btn.pressed.connect(lambda : update_strobestate(False))
+            anm_btn = QPushButton(f'{self.presets[i+13]}')
+            anm_btn.clicked.connect(lambda _,  val=i: self.send_preset(val+13))
+            anm_btn.clicked.connect(lambda : update_strobestate(False))
+            anm_btn.clicked.connect(lambda: stop_time())
+            anm_btn.clicked.connect(lambda _, val=i: self.set_visual(val+13))
             self.animations_grid.addWidget(anm_btn,0,i+1)
             anm_btn.setFixedSize(60,60)
 
@@ -228,7 +237,7 @@ class LightControl(QMainWindow):
         self.visual_grid = QGridLayout()
 
         for i in range(25):
-            vsl_led = QLabel(f'{i}')
+            vsl_led = QLabel()
             self.all_visuals.append(vsl_led)
             self.visual_grid.addWidget(vsl_led,i//5,i%5)
             vsl_led.setFixedSize(25,25)
@@ -337,15 +346,10 @@ class LightControl(QMainWindow):
     
     def set_visual(self,item):
             self.active_visual=[]
-            item = self.presets[item]
-            pos_ls = self.patterns[item] 
+            item_name = self.presets[item]
+            pos_ls = []
+            pos_ls = self.patterns[item_name] 
             self.active_visual.append(pos_ls)
-            for i in pos_ls:
-                if i in self.red_leds:
-                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
-                else:
-                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
-            
             
             for i in range(1, 26): 
                 if i not in pos_ls:
@@ -354,6 +358,15 @@ class LightControl(QMainWindow):
                         self.all_visuals[i-1].setStyleSheet("background-color: #8E5A5A; border-radius: 12px;")
                     else:
                         self.all_visuals[i-1].setStyleSheet("background-color: #8E8E5A; border-radius: 12px;")
+
+            for i in pos_ls:
+                if i in self.red_leds:
+                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
+                else:
+                    self.all_visuals[i-1].setStyleSheet("background-color: white; border-radius: 12px;")
+            
+            
+            
 
     def ledprint(self,pos):
             name = self.leds[pos]
@@ -397,7 +410,8 @@ class LightControl(QMainWindow):
                 else:
                     self.all_visuals[i-1].setStyleSheet("background-color: #8E8E5A; border-radius: 12px;")
 
-   
+
+
         
      
     

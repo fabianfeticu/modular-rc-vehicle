@@ -1,6 +1,6 @@
 SOFTWARE
 --recieving end of serial(with flat_list)
-(mid)--animation display 
+
 (mid)--LightControl bug fixes
 (mid)--fix the matrixcontrol software(.ino) to take in costum patterns will require bit operations in uint8_t
 (mid)--fix animation display in lightcontrol
