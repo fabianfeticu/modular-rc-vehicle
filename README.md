@@ -1,3 +1,7 @@
+NOTE!!!!!
+This project was aborted because I do not believe in it's potential anymore, though you may still find relevant information here! CHECK OUT THE WORK THAT HAS ALREADY BEEN DONE, FEEL FREE TO LEARN FROM IT OR USE IT IN ANY OF YOUR PROJECTS. 
+
+
 # modular-rc-vehicle
 Work in progress!!!
 This is a costum built RC vehicle. It has several version, but I'm planning to design it to be equipped with a "Quickmount system"
@@ -8,21 +12,10 @@ The project is modular and more features will be added on the go (future feature
 
 # 📂 Project Structure
 - **Project Category:** Custom (Original Mechanical Design)
-- **CAD V1:** [Download STEP File](Design/Frame.step)
+- **CAD V1:** [Download STEP File](Design/Frame11.step)
 
 
-# V1 - Design
-![Chassis Overview](Material/Design1.jpg)
-
-
-![Steering Cross-Section](Material/Arm_joint2.jpg)
-
-
-![Quickmount Detail](Material/QuickmounSystem2.jpg)
-
-
-
-![Internal Routing](Material/Routing%20system%202.jpg)
+![Chassis Overview](video.mp4)
 
 
 # Modular RC Car with Wireless Control and LED Matrix
