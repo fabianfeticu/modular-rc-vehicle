@@ -12,7 +12,7 @@ The 5x5 LED Matrix Software is 100% complete and functional.
 
 The Mechanical "Quickmount" logic is available for study/forking.
 
-Check out the "archive" for some cool photos 
+Check out the "archive" for some cool photos found in "materials"
 
 # modular-rc-vehicle
 Work in progress!!!
